@@ -1,0 +1,267 @@
+---
+title: "Project 03: An Introduction to Experimental Design and Ethics"
+author: "by E.Shin"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    vertical_layout: fill
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+library(readr)
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(ggthemes)
+library(knitr)
+dash_theme = ggthemes::theme_gdocs() + 
+  theme(legend.position = "none",
+        text = element_text(family = "serif"))
+```
+
+# EXPERIMENTAL DESIGN
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+**INTRODUCTION**
+
+One one of the central concepts of statistics states: "Correlation does not imply causation". This is a fundamental notion to not only understanding regression but also for experimental design. While regression analysis (linear, logistic, multivariate, etc.) can be extremely useful for analyzing data and identifying potential trends, experiments can provide reliable evidence that supports a causal relationship between two variables. The basic outline of experimental design includes an explanatory response variable and response variable, randomization, control, and replication. When properly implemented, these principles increase the reliability and validity of the results and allows the experimenter to exclude confounding or lurking variables as an alternative explanation. 
+
+Studies that do not follow experimental design principles are labeled observational studies in which researchers observe the effects of a risk factor or treatment without intervention. A common type of observational study is the longitudinal study that involve repeated observations of the same variables or participants over time, which is particularly are useful in fields such as epidemiology and psychology. Other studies that fall in between the two are termed quasi-experimental designs, which depends on the type of research question of interest, but these kinds of studies can also be useful for validating treatment methods or investigating potential associations on a more exploratory basis. In fact, many of the studies we have reviewed in statistics have often been observational studies or surveys to conduct exploratory data analysis (EDA) and identify potential trends for further investigation.
+
+The aim of an experiment is to study the relationship between two variables. Following the *scientific method*, experiments are designed to test **hypotheses** formulated from theories and observations of the natural world.  To infer a causal relationship between two variables, sound experimental design is crucial to producing accurate, reliable data. Of the two, the **independent/explanatory variable** serves to generate a change in the affected **dependent/response variable**.
+
+**VARIABLES** 
+
+In an experiment, the **independent variable** (shown on the x-axis) is the manipulated element, while the **dependent variable** (shown along the y-axis) is measured. **Image 1** displays the simple graph of a common hypothetical experiment in which the researcher provides various amounts of fertilizer to a type of plant to observe how this effects plant height. In this case, the **hypothesis** would be to investigate whether more fertilizer causes this type of plant to grow taller. By keeping other variables constant (i.e. amount of water, exposure to sunlight, amount and type of soil, species of plant, etc.), the researcher can infer that adding more fertilizer causes plants to grow taller instead of only observing that amount of fertilizer positively corresponds to plant height. 
+
+In addition, while experiments may test multiple independent variables (IVs) and measure even more dependent variables (DVs), since one IV may influence many different things, for the sake of simplicity only one IV and DV is shown in Image 1.
+
+**CONFOUNDERS** 
+
+Controlling for other factors is essential to reducing the possibility of alternative explanations for the results, which are termed **confounding variables**. For instance, if the plants were not watered the same amount, then one plant receiving more water could explain the greater plant height rather than the amount of fertilizer. Furthermore, confounders can affect both IVs and DVs, or both at once. Thus, what appears at first to be clear experimental results can quickly turn into a muddled outcome.
+
+In **Image 2**, you can see that the confounder shown influences the IV and DV of the same experiment. Thus, this confounding variable could result in the driving force behind the spurious correlation assumed between the IV and DV.
+
+The **Diagram** displays an even more complex scenario in which one confounder can affect multiple DVs as well as an IV. This diagram also shows that not all DVs or IVs must be interrelated to one another; here, dependent variable 3 (DV3) is only affected by the confounder and DV4 is only affected by independent variable 1 (IV1), although DV1 and DV2 are both affected by the confounder and IV1. As experiments test include more IVs and DVs, it is easy to see how difficult the data can be to interpret.
+
+**Image 3** highlights a spurious correlation from our textbook, *The Truthful Art*, in which an extremely strong positive correlation was found between the age of Miss America and the number of homicides by steam, hot vapors, or hot objects. This is another instance in which *correlation does not imply causation* - only detailed experimental design can establish causation.
+
+To reduce the possibility of confounding variables occurring and interfering with the experimental results, researchers use **controls**.
+
+Experimental Design {.tabset .tabset-fade}
+-----------------------------------------------------------------------
+
+### IMAGE 1: VARIABLES
+
+```{r, echo=FALSE, out.height = "80%"}
+knitr::include_graphics('C:/Variables.jpg')
+```
+
+### IMAGE 2: CONFOUNDERS
+
+```{r, echo=FALSE}
+knitr::include_graphics('C:/Confounding.jpg')
+```
+
+### DIAGRAM: CONFOUNDERS
+
+```{r}
+library(DiagrammeR)
+grViz("
+  digraph {
+    layout = circo
+    node [shape = circle]
+    Confounder -> {IV1 DV1 DV2 DV3} 
+    IV1 -> {DV1 DV2 DV4}
+  }")
+```
+
+### IMAGE 3: SPURIOUS CORRELATIONS
+
+```{r, echo=FALSE}
+knitr::include_graphics('C:/Correlations.jpg')
+```
+
+### IMAGE SOURCES
+
++ IMAGE 1 Source: <https://explorable.com/independent-variable>
+
++ IMAGE 2 Source: <https://explorable.com/confounding-variables>
+
++ IMAGE 3 Source: *The Truthful Art*, Chapter 9, pg. 235
+
++ *Note: The digram was created with HTML widget DiagrammeR.*
+
+
+# DESIGN PRINCIPLES 
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+In order to determine whether experimental results are valid, researchers must follow several design principles: **control**, **replication**, **ethics**, and **randomization**.
+
+**CONTROLS AND BIASES**
+
+Think back to the mention of confounding variables. How do we reduce or eliminate their effect? By *controlling* for the effects that lurking variables can have on the dependent variable (DV). The issue with not controlling properly can lead to several biases. The most prominent bias is **experimental bias** which occurs when the researcher unconsciously affects results or data to favor certain outcomes based on personal influence. Another kind of bias that occurs in medical settings is the **placebo effect** which occurs when patients react to a treatment that they believe will have a positive effect even when in actuality no such method has been provided. 
+
+In addition, the reversal may affect the results; if participants suspect that they received no actual treatment, then that could change their behavior and the efficacy of the treatment could not be accurately evaluated. In this case, **double-blinding** is a common and recommended method in which neither the researchers nor participants are aware of the patients' group status.
+
+**REPLICATION**
+
+After an experiment is designed following all the essential principles and the results are analyzed, we must still remain cautious of drawing immediate conclusions from a single experiment no matter the statistical significance shown. For instance, the "success" of one experiment may still be due to random chance or bias or confounders, even when controlling for other variables. Thus, **replication** will show if a treatment is actually effective over time due to the long-term averaging effect of multiple experiments, which also reduces experimental bias since the original researchers would not be involved in the following experiments. Robust research comes from sharing data and detailed methods such that other researchers can *replicate* the experiment after reading the article without needing to constantly consulting the original authors of the paper (since that could also introduce bias to the experiment). Ensuring a thorough methods section in the experiment describing the design and highlighting which steps were taken to control for confounding variables and reduce bias allows for easy reproducibility and strengthens the experimental design.
+
+**ETHICS**
+
+**Ethics** refers to the rules of conduct that researchers must follow when performing an experiment. The requirements vary depending on the type of research involved: human studies (especially those that concern vulnerable populations), animal studies, cell studies, etc. There are also regulations involving the use of data, especially concerning sensitive or personal information that is collected from participants in a human study. 
+
+In general, research studies should be designed to answer a specific question that justifies the purpose of the experiment. Especially for those concerning human subjects, the studies should hold some type of clinical or social significance or contribute to scientific understanding. Furthermore, the research design should ensure scientific validity, including an answerable question, feasible methods, and reliable procedures in addition to the design principles previously mentioned.
+
+In addition, the experiment should be subjected to independent review to reduce potential conflicts of interest. Depending on the level of involvement of the activity, risks involved, and the population of the participants, human studies undergo different levels of an Institutional Review Board (IRB) and can also remain monitored while the trials are active. Animal studies can also undergo review to ensure humane treatment during the course of the experiment.
+
+At the conclusion of an experiment, we must also remain conscientious when interpreting the results and presenting the data. As statisticians and researchers, we have an obligation to not deliberately misinterpret or present data to send a misleading message. Statistics are powerful. To condense all the natural phenomena that occur everyday and make sense of the universe, we categorize our observations to form logical conclusions and develop theories about them. In order to support specific hypothesis derived from those theories, we conduct experiments to determine the validity of those hypotheses and the relationship between two variables. Experimental results and statistical analyses (that help determine the significance and validity of the results) inform our decisions in society, from policy making to corporations making their next business move.
+
+Aside from ensuring the validity of our data, we also operate with the responsibility to make accurate and pleasing visualizations accessible to the public in both form and function. For instance, we must create graphs that are comprehensible to the colorblind and adjust the content and format of graphics to the intended audience whether it be academic, political, corporate, or public. Copious amounts of data are uploaded and displayed through the web every day, but it is another matter to parse through that data. In the case that the data is incomplete, limitations in collection occurred, or there are any conflicts of interest, it is appropriate for statisticians and scientists to acknowledge these limitations while illustrating potential associations and future pathways to investigate.
+
+For more information on the ethics of research, see: 
+
++ <https://www.nih.gov/health-information/nih-clinical-research-trials-you/guiding-principles-ethical-research>
++ <https://www.apa.org/monitor/jan03/principles>
++ <https://www.city.ac.uk/research/ethics/how-to-apply/principles-of-research-ethics>
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+**RANDOMIZATION**
+
+The practice of eliminating one's own subjective bias with personal judgment is not a reliable method. Thus, **randomizing** experiments is one of the key features of receiving approval from the standards of academic journals. In addition, it is *crucial* to practice **random sampling** when selecting subjects for an experiment. Failure to do so means that any conclusions cannot be attributed to the general populous since the sample does not accurately reflect the overall population. For instance, if only participants under the age of 18 are used to test a medication, then the results of the experiment could not be attributed to the adult population - especially in this case in which children are known to have different reactions to dosages of medication due to either differences in hormone levels, age, or weight.
+
+**Two common randomized experimental designs are detailed below:**
+
+1) *Completely Randomized Design*
+
+Items or participants are assigned to groups completely at random using objective methods or random number generators. One common practice is to label each subjects and then assign treatments using a table or random numbers, or running subjects through a computer program to select a random sample. Imagine a simple medical experiment: a company wishes to test the efficacy of a new vaccine and randomly selects 1000 people from across the US to test this vaccine. Subjects are randomly assigned to either the placebo or vaccine treatment. A table of this design is shown on the next tab.
+
+*Note: While the participants are randomly distributed between the two treatments, observe that the number of participants per treatment is equal. In experiments, sample size can influence the results and variability, so it is important to keep the treatment sizes generally the same. In statistics, as the sample size increases the amount of variability lessens due to the effect of averaging all participant results. Essentially, it is less likely that the outcome is due to random chance.*
+
+TABLE: COMPLETELY RANDOMIZED DESIGN
+
+```{r, echo = FALSE}
+library(DT)
+table1 <- tibble(Treatment = c("Placebo", "Vaccine"),
+                Count = c(500, 500))
+
+datatable(table1)
+```
+
+2) *Randomized Block Design*
+
+In this design, the experimenter distributes subjects into subgroups labeled **blocks** in a way that reduces the variability within the blocks more so than that between blocks. Then the subjects within each block are randomly assigned to treatment conditions. For example, a sample population of 1000 participants are part of an experiment testing the efficacy of a vaccine. The experimenters decide to split the population into two subgroups: male and female. The participants are assigned to blocks based on gender, and within each block the 500 participants are randomly split between treatments (placebo or vaccine). A table of this design is shown on the next tab.
+
+*Note: Gender is commonly used to split participants into blocks since it has been repeatedly observed that men and women have differences in physiology as well as reaction to medication. This particular design explicitly removes gender as a source of variability and as a confounder.*
+
+TABLE: RANDOMIZED BLOCK DESIGN
+
+```{r, echo = FALSE}
+table2 <- tibble(Gender = c("Male", "Female"),
+                Treatment = c("Placebo", "Vaccine"),
+                Count = c(250, 250))
+datatable(table2)
+```
+
+
+# INTERESTING OBSERVATIONAL DATA!
+
+Experimental Design and Ethics {.tabset .tabset-fade}
+-----------------------------------------------------------------------
+
+### CONTEXT
+
+Since the image of a hypothetical, experimental graph was already shown and reviewed (see IMAGE 1: VARIABLES), I thought it would be interesting to explore a couple observational datasets introduced from a statistics class and contemplate what types of graph one might design with different data!
+
+### OBSERVATIONAL STUDY 1: SCATTERPLOT
+
+```{r, echo = FALSE}
+covid <- read_csv("covid_data.csv")  
+
+covid %>%
+  group_by(geo_value, signal) %>%
+  summarize(
+    avg = mean(value, na.rm = T)
+  ) %>%
+  pivot_wider(id_cols = geo_value, names_from = signal, values_from = avg) %>%
+  ungroup() -> state_avg
+
+plot <- state_avg %>%
+    mutate(state = str_to_upper(geo_value)) %>%
+    ggplot(aes(x = smoothed_wearing_mask, y = smoothed_cli)) +
+    geom_point(aes(text = toupper(geo_value))) + 
+    labs(title = "Percent Displaying Covid-Like Illness by Percent Wearing Masks in the US",
+         x = "% Wearing Masks",
+         y = "% Displaying CLI") +
+    dash_theme +
+  geom_smooth(method = "lm", se = FALSE)
+
+ggplotly(plot, tooltip = "text")
+```
+
+### OBSERVATIONAL STUDY 1: TIMEPLOT
+
+```{r}
+library(dygraphs)
+library(zoo)
+tested_14d <- covid %>%
+  filter(signal == "smoothed_tested_14d" & geo_value == "pa") %>%
+  select(signal, time_value,value)
+test14d_ts <- zoo(tested_14d, seq(from = as.Date("2020-10-01"), to = as.Date("2020-12-31"), by = 1))
+dygraph(test14d_ts, main = "% of Pennsylvanians Tested for COVID in Fall 2020") %>% 
+  dyRangeSelector(dateWindow = c("2020-10-01", "2020-12-31"))
+```
+
+### DATATABLE OF COVID DATA
+
+Here's a glimpse of the data that was plotted:
+
+```{r, echo = FALSE}
+datatable(covid, options = list(iDisplayLength = 10))
+```
+
+### EXPLANATION 1
+
+The *scatterplot* and *timeplot* come from an observational study of the the number of US citizens who tested for COVID-19 over time between October - December 2020. This is not a controlled experiment but rather data pulled form a survey. The study was useful for analyzing trends in behavior and number of COVID-19 tests performed, but no manipulation of any variable occurred here. These types of studies are conducted when the independent variable is not controlled by the experimenter due to ethical or logistical constraints.
+
+At first glance, the *scatterplot* seems like it would belong to an experimental study more, but the line here simply represents the strength of the correlation between the percent of people wearing masks and the percent of the population displaying COVID-like illness. Note that when you hover over each point, the abbreviation of the state name will also appear. This type of plot is useful for identifying correlational relationships as well as determining their strength and direction.
+
+In the *timeplot*, it is easier to observe that this was a longitudinal study conducted by surveying and tracking medical data. Here, the axes are not labeled since the information is easily gleaned from the title. We should note that since only three months' worth of data were plotted, we should cannot conclude whether this is a seasonal trend or if the increase will continue past the next year from this chart. Generally, longitudinal studies are observational studies (as is the case here), but it is possible to design a longitudinal randomized experiment.
+
+*Note: The scatterplot was made with with HTML widget plotly, and the timeplot was made with HTML widget dygraphs.*
+
+### OBSERVATIONAL STUDY 2: SCATTERPLOT WITH SHAPES
+
+```{r}
+library(readr)
+library(rbokeh)
+needex = read_csv("dist_ssp_amfar.csv")
+
+figure(data = needex, title = "Distance to Syringe Services Program (SSP) by % Uninsured", xlab = "% Uninsured", ylab = "Distance to nearest SSP (mi)") %>%
+  ly_points(pctunins, dist_SSP, data = needex,
+    color = metro, glyph = metro,
+    hover = list(pctunins, dist_SSP)) 
+```
+
+### DATATABLE OF NEEDEX
+
+```{r}
+datatable(needex, options = list(iDisplayLength = 10))
+```
+
+### EXPLANATION 2
+
+This scatterplot was made using data compiled by the amfar Opioid and Health Indicator Base. While not strictly an observational study, the data was collected through syringe programs self-reporting to the North American Syringe Exchange Network (NASEN). What distinguishes this scatterplot from the first one shown is that the observations are further categorized by shape and color. While the first scatterplot showed an additional third variable (state name), this method is a bit more informative while retaining its explanatory power despite appearing a bit more complicated. Furthermore, if one wished, they could try to compare the correlation of the metro vs the nonmetro instead of simply drawing a line through all the points of the scatterplot. This was not possible with the first scatterplot because the categorical variable contained 50 states, and adding a shape or color geom is often not advisable with more than 6 items in a categorical variable. In addition, this is simply a small snapshot into the entire dataset - as you can see in the datatable, we could have also plotted the distance to the nearest SSP against opioid rate or HIV prevalence.
+
+*Note: The plot was made with HTML widget rbokeh.*
+
+**While we have only reviewed observational data in this section of the Experimental Design and Ethics Overview, hopefully this also helps aids your comprehension of the importance of visualization when interpreting results whether they come from observational data or excellent research design. It is important to your experimental design to not only practice ethical and detailed principles but also visualize data in an informative, accurate, and appropriate manner.**
+
